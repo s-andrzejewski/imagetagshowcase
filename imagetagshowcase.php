@@ -140,7 +140,9 @@ class ImageTagShowcase extends Module
     protected function getConfigForm()
     {
         $preview_image_url = Configuration::get('IMAGETAGSHOWCASE_IMAGE', null);
-        $preview_image = '<div class="col-lg-6"><img src="' . $preview_image_url . '" class="img-thumbnail" width="400"></div>';
+        if ($preview_image_url) {
+            $preview_image = '<div class="col-lg-6"><img src="' . $preview_image_url . '" class="img-thumbnail imagetagshowcase-image-to-tag" width="400"></div>';
+        }
 
         return array(
             'form' => array(

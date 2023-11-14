@@ -28,4 +28,12 @@
 
 function drawNewPoint() {
     console.log("działa");
+    const image = document.querySelector(".imagetagshowcase-image-to-tag");
+
+    image.addEventListener("click", (event) => {
+        const x = event.pageX - this.offsetLeft;
+        const y = event.pageY - this.offsetTop;
+        alert("X coord: " + x + " Y coord: " + y);
+        return;
+    })
 }
