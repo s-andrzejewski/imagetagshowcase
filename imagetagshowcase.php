@@ -138,52 +138,55 @@ class ImageTagShowcase extends Module
      * Create the structure of your form.
      */
     protected function getConfigForm()
-    {      
-        $fields_form = [
-            'form' => [
-                'legend' => [
-                    'title' => $this->l('Sections managment'),
-                    'icon' => 'icon-cogs',
-                ],
-                'input' => [
-                    [
+    {
+        return array(
+            'form' => array(
+                'legend' => array(
+                'title' => $this->l('Settings'),
+                'icon' => 'icon-cogs',
+                ),
+                'input' => array(
+                    array(
+                        'col' => 2,
                         'type' => 'text',
-                        'label' => $this->l('Section header'),
+                        'prefix' => '<i class="fa-solid fa-heading"></i>',
+                        'desc' => $this->l('Enter a heading text for the message.'),
                         'name' => 'IMAGETAGSHOWCASE_HEADER',
-                        'lang' => true,
-                    ],
-                    [
+                        'label' => $this->l('Heading'),
+                    ),
+                    array(
+                        'row' => 5,
                         'type' => 'textarea',
-                        'label' => $this->l('Section description'),
+                        'prefix' => '<i class="fa-solid fa-pen"></i>',
+                        'desc' => $this->l('Enter banner\'s content.'),
                         'name' => 'IMAGETAGSHOWCASE_DESCRIPTION',
-                        'lang' => true,
-                    ],
-                    [
+                        'label' => $this->l('Description'),
+                        'autoload_rte' => true,
+                    ),
+                    array(
                         'type' => 'file',
                         'label' => $this->l('Upload image'),
-                        'name' => 'IMAGETAGSHOWCASE_POINT_BTN',
-                        'desc' => $this->l('Upload an image on which you will draw points.'),
-                    ],
-                ],
-                'buttons' => [
-                    [
+                        'name' => 'IMAGETAGSHOWCASE_IMAGE',
+                        'desc' => $this->l('Upload an image for the custom banner.'),
+                    ),
+                ),
+                'buttons' => array(
+                    array(
                         //'href' => '//url',            // If this is set, the button will be an <a> tag
                         'js'   => 'drawNewPoint()',     // Javascript to execute on click
                         //'class' => '',                  // CSS class to add
                         'type' => 'button',             // Button type
                         'id'   => 'draw-new-point-btn',
-                        'name' => 'draw-new-point-btn',           // If not defined, this will take the value of "submitOptions{$table}"
+                        'name' => 'IMAGETAGSHOWCASE_POINT_BTN',           // If not defined, this will take the value of "submitOptions{$table}"
                         'icon' => 'icon-foo',           // Icon to show, if any
-                        'title' => $this->l('Draw a new point on an image'),                  // Button label
-                    ]
-                ],
-                'submit' => [
+                        'title' => $this->l('Draw a new point on an image'),
+                    ),
+                ),
+                'submit' => array(
                     'title' => $this->l('Save'),
-                ],
-            ],
-        ];
-
-        return $fields_form;
+                ),
+            ),
+        );
     }
 
     /**
