@@ -139,6 +139,9 @@ class ImageTagShowcase extends Module
      */
     protected function getConfigForm()
     {
+        $preview_image_url = Configuration::get('IMAGETAGSHOWCASE_IMAGE', null);
+        $preview_image = '<div class="col-lg-6"><img src="' . $preview_image_url . '" class="img-thumbnail" width="400"></div>';
+
         return array(
             'form' => array(
                 'legend' => array(
@@ -168,6 +171,8 @@ class ImageTagShowcase extends Module
                         'label' => $this->l('Upload image'),
                         'name' => 'IMAGETAGSHOWCASE_IMAGE',
                         'desc' => $this->l('Upload an image for the custom banner.'),
+                        'display_image' => true,
+                        'image' => $preview_image
                     ),
                 ),
                 'buttons' => array(
