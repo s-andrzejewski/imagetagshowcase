@@ -25,3 +25,75 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+
+.tag-image-wrapper {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.tag-point {
+    display: flex;
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background: rgba(255,255,255,.275);
+    backdrop-filter: blur(2px);
+    border-radius: 50%;
+    padding: 0;
+    /* visibility: hidden; */
+    /* opacity: 0; */
+    border: 1px solid #fff;
+    transition: opacity 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.tag-point::after {
+    content: "";
+    /*
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%) scale(.375);
+    */
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    padding: 0;
+    background-color: #fff;
+    transform: scale(.375);
+    transition: transform 0.15s ease-in-out,background-color 0.5s ease-in-out;
+}
+
+.tag-tooltip {
+    padding: 10px 15px;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: #fff;
+    z-index: 999;
+    border-radius: 0.3125rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,.15)
+}
+
+.tag-tooltip span {
+    text-align: left;
+    font-weight: 700;
+}
+
+.input-product-id {
+    min-width: 100px;
+    max-width: 100%;
+    margin-top: 5px;
+}
+
+.save-product-id {
+    margin-top: 5px;
+}
