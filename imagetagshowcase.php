@@ -65,6 +65,7 @@ class ImageTagShowcase extends Module
         Configuration::updateValue('IMAGETAGSHOWCASE_DESCRIPTION', null);
         Configuration::updateValue('IMAGETAGSHOWCASE_IMAGE', null);
         Configuration::updateValue('IMAGETAGSHOWCASE_POINT_BTN', null);
+        Configuration::updateValue('IMAGETAGSHOWCASE_POINTS', null);
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -78,6 +79,7 @@ class ImageTagShowcase extends Module
         Configuration::deleteByName('IMAGETAGSHOWCASE_DESCRIPTION');
         Configuration::deleteByName('IMAGETAGSHOWCASE_IMAGE');
         Configuration::deleteByName('IMAGETAGSHOWCASE_POINT_BTN');
+        Configuration::deleteByName('IMAGETAGSHOWCASE_POINTS');
 
         return parent::uninstall();
     }
@@ -140,7 +142,14 @@ class ImageTagShowcase extends Module
     protected function getConfigForm()
     {
         $preview_image_url = Configuration::get('IMAGETAGSHOWCASE_IMAGE', null);
-        $preview_image = '<div class="col-lg-6"><img src="' . $preview_image_url . '" class="img-thumbnail" width="400"></div>';
+        if ($preview_image_url) {
+            $preview_image = '
+                <div class="col-lg-6">
+                    <div class="tag-image-wrapper">
+                        <img src="' . $preview_image_url . '" class="img-thumbnail imagetagshowcase-image-to-tag" width="100%">
+                    </div>
+                </div>';
+        }
 
         return array(
             'form' => array(
@@ -174,11 +183,17 @@ class ImageTagShowcase extends Module
                         'display_image' => true,
                         'image' => $preview_image
                     ),
+                    array(
+                        'type' => 'hidden',
+                        'name' => 'IMAGETAGSHOWCASE_POINTS',
+                        'value' => '',
+                        'label' => $this->l('Heading'),
+                    ),
                 ),
                 'buttons' => array(
                     array(
                         //'href' => '//url',            // If this is set, the button will be an <a> tag
-                        'js'   => 'drawNewPoint()',     // Javascript to execute on click
+                        //'js'   => 'drawNewPoint()',     // Javascript to execute on click
                         //'class' => '',                  // CSS class to add
                         'type' => 'button',             // Button type
                         'id'   => 'draw-new-point-btn',
@@ -204,6 +219,7 @@ class ImageTagShowcase extends Module
             'IMAGETAGSHOWCASE_DESCRIPTION' => Configuration::get('IMAGETAGSHOWCASE_DESCRIPTION', null),
             'IMAGETAGSHOWCASE_IMAGE' => Configuration::get('IMAGETAGSHOWCASE_IMAGE', null),
             'IMAGETAGSHOWCASE_POINT_BTN' => Configuration::get('IMAGETAGSHOWCASE_POINT_BTN', null),
+            'IMAGETAGSHOWCASE_POINTS' => Configuration::get('IMAGETAGSHOWCASE_POINTS', null),
         );
     }
 
@@ -268,6 +284,34 @@ class ImageTagShowcase extends Module
 
     public function hookDisplayHome()
     {
-        /* Place your code here. */
+        $render = false;
+        $heading = Configuration::get('IMAGETAGSHOWCASE_HEADER');
+        $desc = Configuration::get('IMAGETAGSHOWCASE_DESCRIPTION');
+        $image = Configuration::get('IMAGETAGSHOWCASE_IMAGE');
+        $points = Configuration::get('IMAGETAGSHOWCASE_POINTS');
+
+        if (!empty($heading)) {
+            $this->context->smarty->assign('heading', $heading);
+        }
+        
+        if (!empty($desc)) {
+            $this->context->smarty->assign('desc', $desc);
+        }
+
+        if (!empty($image)) {
+            $this->context->smarty->assign('image', $image);
+            $render = true;
+        }
+
+        if (!empty($points)) {
+            $this->context->smarty->assign('points', $points);
+            $points = true;
+        }
+
+        if ($render) {
+            return $this->display(__FILE__, 'views/templates/' . $this->name . '.tpl');
+        }
+
+        return;
     }
 }

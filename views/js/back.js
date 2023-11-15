@@ -26,6 +26,21 @@
 * to avoid any conflicts with others containers.
 */
 
-function drawNewPoint() {
-    console.log("działa");
+document.addEventListener("DOMContentLoaded", () => {
+    const imageToTag = document.querySelector('.imagetagshowcase-image-to-tag');
+    const triggerBtn = document.querySelector('#draw-new-point-btn');
+
+    triggerBtn.addEventListener("click", () => {
+        (imageToTag && triggerBtn) ? loadTagPointsModule(imageToTag)  : '';
+    })
+});
+
+// async function tagPoints(image) {
+async function loadTagPointsModule(image) {
+    const { tagPoints } = await import('./back/tagPoints.js');
+    const handler = (event) => {
+        image.removeEventListener("click", handler);
+        tagPoints(image, event);
+    }
+    image.addEventListener("click", handler);
 }
